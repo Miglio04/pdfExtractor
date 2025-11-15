@@ -52,3 +52,8 @@ def pdf_extractor(file_path: str) -> str:
     text = extract_text_from_pdf(file_path)
     result = process_pdf_text(text)
     return result
+
+if __name__ == "__main__":
+    file_path = "fattura1.pdf"
+    extracted_data = pdf_extractor(file_path)
+    print(extracted_data)
