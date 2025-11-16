@@ -43,7 +43,7 @@ def process_pdf_text(pdf_stream: str) -> str:
         api_key=os.getenv("MISTRAL_API_KEY", API_KEY),
     ) as mistral:
         res = mistral.chat.complete(
-            model="mistral-large-latest", 
+            model="mistral-small-latest", 
             messages=[{
                 "content": PROMPT.format(pdf_stream),
                 "role": "user",
