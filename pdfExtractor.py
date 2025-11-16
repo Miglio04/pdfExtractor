@@ -53,7 +53,7 @@ def process_pdf_text(pdf_stream: str) -> str:
     content = re.search(r'\{.*\}', content, flags=re.DOTALL).group(0)
     return content    
     
-
-text = extract_text_from_pdf(file_path)
-result = process_pdf_text(text)
-print(result)
+def main():
+    text = extract_text_from_pdf(file_path)
+    result = process_pdf_text(text)
+    print(result)
