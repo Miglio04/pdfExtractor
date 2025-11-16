@@ -6,7 +6,7 @@ from mistralai import Mistral
 from appwrite.client import Client
 from appwrite.services.storage import Storage
 
-# Load API key and Appwrite settings from environment variable
+# For local execution, you can set default values here
 # MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY", default="DgFhIOq2TFGDDbUxXBMpSaEeMx7Ktps1")
 # BUCKET_ID = os.getenv("BUCKET_ID", default="6919ad28000c5514222b")
 # PROJECT_ID = os.getenv("PROJECT_ID", default="690b89fa001c2de87a3a")
@@ -49,11 +49,6 @@ PROMPT = """Interprete the following text extracted from a pdf invoice and retur
             The text is the following: {}
         """
         
-# Note: we no longer have a helper to download files. The code in `main`
-# calls `storage.get_file_download(file_id)` directly and passes the result
-# to `extract_text_from_pdf` (keeps main very short and simple).
-
-
 def extract_text_from_pdf(file_bytes: bytes) -> str:
     """Extract text from a PDF provided as raw bytes.
 
@@ -92,6 +87,7 @@ def process_pdf_text(pdf_stream: str) -> str:
 # Main function to be called
 def main(context):
     # Static file id on Appwrite Storage (set it here)
+    
     file_id = "6919ad42000f5377be92"
     pdf_bytes = storage.get_file_download(file_id)
     text = extract_text_from_pdf(pdf_bytes)
@@ -99,6 +95,7 @@ def main(context):
     print(result)
     return context.res.empty()
 
+# for local testing purposes
 # if __name__ == "__main__":
 #     file_id = "6919ad42000f5377be92"
 #     print(BUCKET_ID, file_id)
