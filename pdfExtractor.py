@@ -74,6 +74,7 @@ def process_pdf_text(pdf_stream: str) -> str:
                         "role": "user",
                     }], 
                     stream=False)
+                break
             except Exception as e:
                 time.sleep(0.5 * i)
                 if i == 3:
