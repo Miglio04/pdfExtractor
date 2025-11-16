@@ -60,5 +60,5 @@ def process_pdf_text(pdf_stream: str) -> str:
 def main(context):
     text = extract_text_from_pdf(file_path)
     result = process_pdf_text(text)
-    print(result)
+    context.log(result)
     return context.res.empty()
