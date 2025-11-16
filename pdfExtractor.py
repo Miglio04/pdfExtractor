@@ -5,6 +5,9 @@ import os
 
 API_KEY = os.getenv("API_KEY")
 
+BASE = os.path.dirname(__file__)
+file_path = os.path.join(BASE, "fattura1.pdf")
+
 #"DgFhIOq2TFGDDbUxXBMpSaEeMx7Ktps1"
 
 PROMPT = """Interprete the following text extracted from a pdf invoice and return a json objects with the following structure containing all the informations inside the text i provided you: 
@@ -51,6 +54,6 @@ def process_pdf_text(pdf_stream: str) -> str:
     return content    
     
 
-text = extract_text_from_pdf("fattura1.pdf")
+text = extract_text_from_pdf(file_path)
 result = process_pdf_text(text)
 print(result)
