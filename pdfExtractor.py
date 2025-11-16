@@ -3,7 +3,7 @@ from mistralai import Mistral
 import re
 import os
 
-#API_KEY = os.getenv("API_KEY")
+API_KEY = os.getenv("API_KEY")
 
 BASE = os.path.dirname(__file__)
 file_path = os.path.join(BASE, "fattura1.pdf")
@@ -55,7 +55,6 @@ def process_pdf_text(API_KEY, pdf_stream: str) -> str:
     
 def main(context):
     text = extract_text_from_pdf(file_path)
-    API_KEY = context.env["API_KEY"]
     result = process_pdf_text(API_KEY, text)
     print(result)
     return context.res.empty()
