@@ -3,7 +3,9 @@ from mistralai import Mistral
 import re
 import os
 
-API_KEY = "DgFhIOq2TFGDDbUxXBMpSaEeMx7Ktps1"
+API_KEY = os.getenv("API_KEY")
+
+#"DgFhIOq2TFGDDbUxXBMpSaEeMx7Ktps1"
 
 PROMPT = """Interprete the following text extracted from a pdf invoice and return a json objects with the following structure containing all the informations inside the text i provided you: 
             {{   
@@ -49,9 +51,9 @@ def process_pdf_text(pdf_stream):
     return content    
     
 def pdf_extractor(file_path: str) -> str:
-    text = extract_text_from_pdf(file_path)
-    result = process_pdf_text(text)
-    return result
+   text = extract_text_from_pdf(file_path)
+   result = process_pdf_text(text)
+   return result
 
 if __name__ == "__main__":
     file_path = "fattura1.pdf"
