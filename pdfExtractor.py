@@ -3,6 +3,7 @@ import io
 import re
 import os
 import json
+import time
 from mistralai import Mistral
 from appwrite.client import Client
 from appwrite.services.storage import Storage
@@ -64,13 +65,19 @@ def process_pdf_text(pdf_stream: str) -> str:
     with Mistral(
         api_key=MISTRAL_API_KEY,
     ) as mistral:
-        res = mistral.chat.complete(
-            model="mistral-small-latest", 
-            messages=[{
-                "content": PROMPT.format(pdf_stream),
-                "role": "user",
-            }], 
-            stream=False)
+        for i in range(4):
+            try:
+                res = mistral.chat.complete(
+                    model="mistral-small-latest", 
+                    messages=[{
+                        "content": PROMPT.format(pdf_stream),
+                        "role": "user",
+                    }], 
+                    stream=False)
+            except Exception as e:
+                time.sleep(0.5 * i)
+                if i == 3:
+                    raise e
     content = res.choices[0].message.content
     content = re.search(r'\{.*\}', content, flags=re.DOTALL).group(0)
     return content    
