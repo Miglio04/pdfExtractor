@@ -50,12 +50,6 @@ PROMPT = """Interprete the following text extracted from a pdf invoice and retur
         """
         
 def extract_text_from_pdf(file_bytes: bytes) -> str:
-    """Extract text from a PDF provided as raw bytes.
-
-    This function expects the bytes returned by `download_file_bytes` (i.e. a
-    file downloaded from Appwrite Storage). It will raise a `TypeError` if the
-    input is not bytes.
-    """
     if not isinstance(file_bytes, (bytes, bytearray)):
         raise TypeError("extract_text_from_pdf expects raw bytes from Appwrite storage")
 
@@ -87,7 +81,6 @@ def process_pdf_text(pdf_stream: str) -> str:
 # Main function to be called
 def main(context):
     # Static file id on Appwrite Storage (set it here)
-    
     file_id = "6919ad42000f5377be92"
     pdf_bytes = storage.get_file_download(BUCKET_ID,file_id)
     text = extract_text_from_pdf(pdf_bytes)
