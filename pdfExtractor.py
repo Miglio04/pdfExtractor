@@ -7,12 +7,14 @@ from mistralai import Mistral
 from appwrite.client import Client
 from appwrite.services.storage import Storage
 
+# Environment variables
 MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY")
 BUCKET_ID = os.getenv("BUCKET_ID")
 PROJECT_ID = os.getenv("PROJECT_ID")
 APPWRITE_ENDPOINT = os.getenv("APPWRITE_ENDPOINT")
 APPWRITE_API_KEY = os.getenv("API_KEY")
 
+# Initialize Appwrite client and storage service
 client = Client()
 if APPWRITE_ENDPOINT:
     client.set_endpoint(APPWRITE_ENDPOINT)
@@ -42,7 +44,8 @@ PROMPT = """Interprete the following text extracted from a pdf invoice and retur
             The content field should contain the informations required in the json with maximum accuracy. Don't include any other text outside of the json object exactly as I described it in your response.
             The text is the following: {}
         """
-        
+
+# Function to extract text from PDF bytes
 def extract_text_from_pdf(file_bytes: bytes) -> str:
     if not isinstance(file_bytes, (bytes, bytearray)):
         raise TypeError("extract_text_from_pdf expects raw bytes from Appwrite storage")
