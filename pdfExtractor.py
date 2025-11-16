@@ -27,7 +27,7 @@ PROMPT = """Interprete the following text extracted from a pdf invoice and retur
             The text is the following: {}
         """
         
-def extract_text_from_pdf(file_path):
+def extract_text_from_pdf(file_path: str) -> str:
     with open(file_path, 'rb') as file:
         reader = pypdf.PdfReader(file)
         text = ''
@@ -35,7 +35,7 @@ def extract_text_from_pdf(file_path):
             text += page.extract_text() + '\n'
     return text
 
-def process_pdf_text(pdf_stream):
+def process_pdf_text(pdf_stream: str) -> str:
     with Mistral(
         api_key=os.getenv("MISTRAL_API_KEY", API_KEY),
     ) as mistral:
@@ -50,12 +50,7 @@ def process_pdf_text(pdf_stream):
     content = re.search(r'\{.*\}', content, flags=re.DOTALL).group(0)
     return content    
     
-def pdf_extractor(file_path: str) -> str:
-   text = extract_text_from_pdf(file_path)
-   result = process_pdf_text(text)
-   return result
 
-if __name__ == "__main__":
-    file_path = "fattura1.pdf"
-    extracted_data = pdf_extractor(file_path)
-    print(extracted_data)
+text = extract_text_from_pdf("./fattura1.pdf")
+result = process_pdf_text(text)
+print(result)
