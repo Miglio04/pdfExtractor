@@ -3,13 +3,14 @@ from mistralai import Mistral
 import re
 import os
 
+# Load API key from environment variable
 API_KEY = os.getenv("API_KEY")
 
+# Temporary file path for the PDF
 BASE = os.path.dirname(__file__)
 file_path = os.path.join(BASE, "fattura1.pdf")
 
-#"DgFhIOq2TFGDDbUxXBMpSaEeMx7Ktps1"
-
+# Define the prompt template
 PROMPT = """Interprete the following text extracted from a pdf invoice and return a json objects with the following structure containing all the informations inside the text i provided you: 
             {{   
                 "invoice number": "",
@@ -30,6 +31,7 @@ PROMPT = """Interprete the following text extracted from a pdf invoice and retur
             The text is the following: {}
         """
         
+# Function to extract text from PDF
 def extract_text_from_pdf(file_path: str) -> str:
     with open(file_path, 'rb') as file:
         reader = pypdf.PdfReader(file)
@@ -38,7 +40,8 @@ def extract_text_from_pdf(file_path: str) -> str:
             text += page.extract_text() + '\n'
     return text
 
-def process_pdf_text(API_KEY, pdf_stream: str) -> str:
+# Function to process PDF text with Mistral API
+def process_pdf_text(pdf_stream: str) -> str:
     with Mistral(
         api_key=os.getenv("MISTRAL_API_KEY", API_KEY),
     ) as mistral:
@@ -53,8 +56,9 @@ def process_pdf_text(API_KEY, pdf_stream: str) -> str:
     content = re.search(r'\{.*\}', content, flags=re.DOTALL).group(0)
     return content    
     
+# Main function to be called
 def main(context):
     text = extract_text_from_pdf(file_path)
-    result = process_pdf_text(API_KEY, text)
+    result = process_pdf_text(text)
     print(result)
     return context.res.empty()
