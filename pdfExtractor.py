@@ -81,12 +81,13 @@ def process_pdf_text(pdf_stream: str) -> str:
 # Main function to be called
 def main(context):
     # Static file id on Appwrite Storage (set it here)
-    file_id = "6919ad42000f5377be92"
+    file_id = context.req.query.get("file_id")
+    #file_id = "6919ad42000f5377be92"
     pdf_bytes = storage.get_file_download(BUCKET_ID,file_id)
     text = extract_text_from_pdf(pdf_bytes)
     result = process_pdf_text(text)
     print(result)
-    return context.res.empty()
+    return context.res.text(result)
 
 # for local testing purposes
 # if __name__ == "__main__":
