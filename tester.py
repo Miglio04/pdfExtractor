@@ -1,3 +1,3 @@
 def main(context):
-    context.log("Tester running successfully. Testing update.")
+    context.log("Hello World.")
     return context.res.empty()
