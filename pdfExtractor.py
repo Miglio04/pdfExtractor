@@ -51,6 +51,6 @@ def process_pdf_text(pdf_stream: str) -> str:
     return content    
     
 
-text = extract_text_from_pdf("./fattura1.pdf")
+text = extract_text_from_pdf("fattura1.pdf")
 result = process_pdf_text(text)
 print(result)
