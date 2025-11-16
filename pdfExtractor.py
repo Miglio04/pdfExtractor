@@ -2,16 +2,10 @@ import pypdf
 import io
 import re
 import os
+import json
 from mistralai import Mistral
 from appwrite.client import Client
 from appwrite.services.storage import Storage
-
-# For local execution, you can set default values here
-# MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY", default="DgFhIOq2TFGDDbUxXBMpSaEeMx7Ktps1")
-# BUCKET_ID = os.getenv("BUCKET_ID", default="6919ad28000c5514222b")
-# PROJECT_ID = os.getenv("PROJECT_ID", default="690b89fa001c2de87a3a")
-# APPWRITE_ENDPOINT = os.getenv("APPWRITE_ENDPOINT", default="https://cloud.appwrite.io/v1")
-# APPWRITE_API_KEY = os.getenv("API_KEY", default="standard_ee0427530eaee30e2db6920963710f4815a622c9118655b2e6ff37981a18d964d63d850a9e34d98a17178c99fe77d8a3227503408e343e9809ff7d4e8d9e78b1dc128190a6932a8f8937dfac5c39c00e12fb942cb7dca3a3a68c237a5dacc935a81fb902a12723965572f78b71cf29b1564f73e0b4e5f3977b08c4a820723f66")
 
 MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY")
 BUCKET_ID = os.getenv("BUCKET_ID")
@@ -80,19 +74,9 @@ def process_pdf_text(pdf_stream: str) -> str:
     
 # Main function to be called
 def main(context):
-    # Static file id on Appwrite Storage (set it here)
     file_id = context.req.query.get("file_id")
-    #file_id = "6919ad42000f5377be92"
     pdf_bytes = storage.get_file_download(BUCKET_ID,file_id)
     text = extract_text_from_pdf(pdf_bytes)
     result = process_pdf_text(text)
-    print(result)
-    return context.res.text(result)
-
-# for local testing purposes
-# if __name__ == "__main__":
-#     file_id = "6919ad42000f5377be92"
-#     pdf_bytes = storage.get_file_download(BUCKET_ID, file_id)
-#     text = extract_text_from_pdf(pdf_bytes)
-#     result = process_pdf_text(text)
-#     print(result)
+    result_json = json.loads(result)
+    return context.res.json(result_json)
